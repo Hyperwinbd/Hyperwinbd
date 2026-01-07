@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperWin BD | Best Betting Platform</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <style>
+        :root { --primary: #f39c12; --dark-bg: #0b0e14; --card-bg: #161d2f; }
+        body { background: var(--dark-bg); color: white; font-family: 'Poppins', sans-serif; margin: 0; padding-bottom: 70px; }
+        
+        /* Header & Balance */
+        .header { background: var(--card-bg); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--primary); }
+        .logo { color: var(--primary); font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+        .balance-btn { background: #000; color: var(--primary); border: 1px solid var(--primary); padding: 5px 12px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+
+        .container { padding: 15px; max-width: 500px; margin: auto; }
+
+        /* Banner Slider */
+        .banner { width: 100%; height: 150px; background: linear-gradient(45deg, #1e3a8a, #f39c12); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; text-align: center; font-weight: bold; font-size: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+
+        /* Game Categories */
+        .section-title { font-size: 18px; margin-bottom: 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .game-card { background: var(--card-bg); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #2d3748; transition: 0.3s; }
+        .game-card:active { transform: scale(0.95); border-color: var(--primary); }
+        .game-icon { font-size: 35px; display: block; margin-bottom: 8px; }
+
+        /* Auth UI */
+        .auth-container { margin-top: 60px; text-align: center; padding: 20px; }
+        .input-group { background: var(--card-bg); border-radius: 10px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #2d3748; background: #0b0e14; color: white; outline: none; }
+        .btn-login { width: 100%; padding: 14px; background: var(--primary); border: none; border-radius: 8px; font-weight: bold; color: #000; font-size: 16px; margin-top: 10px; }
+
+        /* Bottom Navigation */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #2d3748; }
+        .nav-item { color: #94a3b8; font-size: 12px; cursor: pointer; text-decoration: none; text-align: center; }
+        .nav-item.active { color: var(--primary); }
+
+        #mainUI { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="authSection" class="auth-container">
+        <h1 style="color: var(--primary);">HYPER WIN BD</h1>
+        <p style="color: #94a3b8;">আপনার ভাগ্য পরিবর্তন করুন এখানে</p>
+        <div class="input-group">
+            <input type="number" id="phone" placeholder="ফোন নাম্বার">
+            <input type="password" id="pass" placeholder="পাসওয়ার্ড">
+            <button class="btn-login" onclick="handleLogin()">লগইন / সাইন-আপ</button>
+        </div>
+    </div>
+
+    <div id="mainUI">
+        <div class="header" style="margin: -15px -15px 20px -15px;">
+            <div class="logo">HYPERWIN</div>
+            <div class="balance-btn">৳ <span id="userBal">0.00</span></div>
+        </div>
+
+        <div class="banner">
+            🔥 আইফোন ১৬ জেতার সুবর্ণ সুযোগ! <br> আজই খেলুন
+        </div>
+
+        <div class="section-title">পপুলার গেমসমূহ</div>
+        <div class="grid">
+            <div class="game-card" onclick="alert('স্লট লোড হচ্ছে...')">
+                <span class="game-icon">🎰</span>
+                <span>স্লট গেম</span>
+            </div>
+            <div class="game-card" onclick="alert('লাইভ ক্যাসিনো লোড হচ্ছে...')">
+                <span class="game-icon">🃏</span>
+                <span>লাইভ ক্যাসিনো</span>
+            </div>
+            <div class="game-card" onclick="alert('স্পোর্টস বেটিং লোড হচ্ছে...')">
+                <span class="game-icon">🏏</span>
+                <span>ক্রিকেট বেটিং</span>
+            </div>
+            <div class="game-card" onclick="alert('ফুটবল বেটিং লোড হচ্ছে...')">
+                <span class="game-icon">⚽</span>
+                <span>ফুটবল বেটিং</span>
+            </div>
+        </div>
+
+        <div class="section-title" style="margin-top: 25px;">প্রমোশন</div>
+        <div class="game-card" style="background: linear-gradient(90deg, #27ae60, #2ecc71); color: white;">
+            🎁 প্রথম ডিপোজিটে ১০০% বোনাস!
+        </div>
+    </div>
+</div>
+
+<div class="bottom-nav" id="footerNav" style="display: none;">
+    <div class="nav-item active">🏠<br>হোম</div>
+    <div class="nav-item" onclick="handleRedirect('Deposit')">💰<br>ডিপোজিট</div>
+    <div class="nav-item" onclick="handleRedirect('Withdraw')">🏦<br>উইথড্র</div>
+    <div class="nav-item" onclick="handleRedirect('Support')">📞<br>সাপোর্ট</div>
+</div>
+
+<script>
+    // আপনার ফায়ারবেস কনফিগ (আগের স্ক্রিনশট থেকে সংগৃহীত)
+    const firebaseConfig = {
+        apiKey: "AIzaSyD75_camGwn_bF9Xh0rkDfK2ZE_vyyJ3DA",
+        authDomain: "good-luck-lottery.firebaseapp.com",
+        databaseURL: "https://good-luck-lottery-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "good-luck-lottery",
+        storageBucket: "good-luck-lottery.firebasestorage.app",
+        messagingSenderId: "842901691566",
+        appId: "1:842901691566:web:a1ea87568c2537767ce13f"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    function handleLogin() {
+        const phone = document.getElementById('phone').value;
+        const pass = document.getElementById('pass').value;
+        if(phone.length < 11 || pass.length < 6) return alert("সঠিক তথ্য দিন!");
+
+        const email = phone + "@hyperwin.com";
+        auth.signInWithEmailAndPassword(email, pass).catch(() => {
+            auth.createUserWithEmailAndPassword(email, pass).then(u => {
+                db.ref('users/' + u.user.uid).set({ phone: phone, balance: 0 });
+            });
+        });
+    }
+
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('mainUI').style.display = 'block';
+            document.getElementById('footerNav').style.display = 'flex';
+            
+            db.ref('users/' + user.uid + '/balance').on('value', snap => {
+                document.getElementById('userBal').innerText = (snap.val() || 0).toFixed(2);
+            });
+        }
+    });
+
+    function handleRedirect(type) {
+        let msg = `হাই এডমিন, আমি HyperWin BD তে ${type} করতে চাই।`;
+        window.open(`https://wa.me/8801334475903?text=${encodeURIComponent(msg)}`);
+    }
+</script>
+</body>
+</html>
